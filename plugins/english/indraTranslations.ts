@@ -165,7 +165,7 @@ class IndraTranslations implements Plugin.PluginBase {
 
   async popularNovels(pageNo: number) {
     if (pageNo !== 1) return [];
-    const html = await this.fetchHtml(`${this.site}/all-series/`);
+    const html = await this.fetchHtml(`${this.site}/series/`);
     const $ = load(html);
     const parsed = this.parseNovelCards($);
 
