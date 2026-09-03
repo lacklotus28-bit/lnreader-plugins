@@ -153,10 +153,11 @@ class IndraTranslations implements Plugin.PluginBase {
         }>;
         for (const c of raw) {
           if (!c.link) continue;
-          // Skip VIP/paid chapters — vip: 1 means the chapter is locked
-          // behind coins and its content can't be fetched without a
-          // purchase, so including it just produces empty/error entries.
-          if (c.vip === 1) continue;
+          // Skip VIP/paid chapters — vip may come through as either
+          // the number 1 or the string "1" depending on how the site
+          // serialized this particular novel's chapter data, so check
+          // loosely rather than strictly for the number 1.
+          if (c.vip == 1) continue;
           const name = this.clean(c.title) || `Chapter ${c.num ?? ''}`;
           chapters.push({
             name,
