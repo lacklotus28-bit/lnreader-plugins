@@ -230,6 +230,20 @@ class IndraTranslations implements Plugin.PluginBase {
       )
       .remove();
 
+    // The site also injects a repeated watermark paragraph like
+    // "Translation of <Novel Name> - Chapter X by Indra Translations."
+    // scattered as its own <p> tag throughout the chapter body. Unlike
+    // the noise spans, this text is fully visible (not display:none),
+    // so it must be filtered out by matching the paragraph's own text
+    // rather than removed by CSS class.
+    content.find('p').each((_, el) => {
+      const p = $(el);
+      const text = this.clean(p.text());
+      if (/^translation of .+ by indra translations\.?$/i.test(text)) {
+        p.remove();
+      }
+    });
+
     return content.html() ?? '';
   }
 
